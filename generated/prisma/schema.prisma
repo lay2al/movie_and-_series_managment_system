@@ -1,0 +1,75 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           Int         @id @default(autoincrement())
+  username     String      @unique
+  email        String      @unique
+  passwordHash String      @map("password_hash")
+  createdAt    DateTime    @default(now()) @map("created_at")
+  updatedAt    DateTime    @updatedAt @map("updated_at")
+  watchlists   Watchlist[]
+
+  @@map("users")
+}
+
+model Movie {
+  id          Int         @id @default(autoincrement())
+  title       String
+  releaseDate DateTime    @map("release_date") @db.Date
+  genre       String?
+  plot        String?     @db.Text
+  rating      Decimal?    @db.Decimal(2, 1)
+  watchlists  Watchlist[]
+
+  @@map("movies")
+}
+
+model Series {
+  id              Int         @id @default(autoincrement())
+  title           String
+  startYear       Int         @map("start_year") @db.SmallInt
+  endYear         Int?        @map("end_year") @db.SmallInt
+  genre           String?
+  plot            String?     @db.Text
+  rating          Decimal?    @db.Decimal(2, 1)
+  numberOfSeasons Int?        @map("number_of_seasons") @db.SmallInt
+  createdAt       DateTime    @default(now()) @map("created_at")
+  updatedAt       DateTime    @updatedAt @map("updated_at")
+  watchlists      Watchlist[]
+
+  @@map("series")
+}
+
+model Watchlist {
+  id          Int      @id @default(autoincrement())
+  userId      Int      @map("user_id")
+  // Corrected: Each relation field now maps to its own column implicitly.
+  movieId     Int?     @map("movie_id")
+  seriesId    Int?     @map("series_id")
+  mediaType   String?  @map("media_type") // This can be used to know which ID is set.
+  addedAt     DateTime @default(now()) @map("added_at")
+  watchStatus String?  @map("watch_status")
+  note        String?  @db.Text
+
+  user   User    @relation(fields: [userId], references: [id])
+  movie  Movie?  @relation(fields: [movieId], references: [id])
+  series Series? @relation(fields: [seriesId], references: [id])
+
+  @@unique([userId, movieId])
+  @@unique([userId, seriesId])
+  @@map("watchlists") // Changed to plural for consistency
+}
