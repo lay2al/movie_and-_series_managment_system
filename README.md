@@ -1,98 +1,168 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Movies & Series Management System
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+A comprehensive backend API for managing movies and series with role-based access control. Admin users can manage the content catalog (add/edit/delete movies and series), while regular users can browse content, track their favorite items, manage personal watchlists, add ratings and notes.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Tech Stack
 
-## Description
+- **Framework**: NestJS
+- **Database**: PostgreSQL
+- **ORM**: Prisma
+- **Authentication**: JWT
+- **Documentation**: Swagger/OpenAPI
+- **Validation**: class-validator
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## Features
 
-## Project setup
+- 🔐 **JWT Authentication** with role-based access control
+- 👥 **User Roles**: Regular Users (viewers) and Admins (content managers)
+- 🎬 **Movie Management**: CRUD operations for movies (admin only)
+- 📺 **Series Management**: CRUD operations for TV series (admin only)
+- 📋 **Personal Watchlists**: Users can track movies/series they want to watch
+- ⭐ **Ratings & Notes**: Personal ratings and notes for watched content
+- 🔍 **Search Functionality**: Search movies and series by title, genre, or synopsis
+- 📄 **API Documentation**: Interactive Swagger documentation
 
+## Installation
+
+1. Clone the repository
 ```bash
-$ npm install
+git clone <repository-url>
+cd movie_and-_series_managment_system
 ```
 
-## Compile and run the project
-
+2. Install dependencies
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+npm install
 ```
 
-## Run tests
+3. Setup PostgreSQL database
+   - Create a PostgreSQL database named `movies_series_db`
+   - Update the DATABASE_URL in `.env` file
 
+4. Configure environment variables
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+# Copy the .env file and update with your values
+DATABASE_URL="postgresql://username:password@localhost:5432/movies_series_db"
+JWT_SECRET="your-secret-key-here-change-in-production"
+JWT_EXPIRATION="7d"
+PORT=5001
 ```
 
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
-
+5. Run database migrations
 ```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+npx prisma migrate dev
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+6. Seed the database with initial data
+```bash
+npm run seed
+```
 
-## Resources
+7. Start the development server
+```bash
+npm run start:dev
+```
 
-Check out a few resources that may come in handy when working with NestJS:
+## Default Credentials
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+After running the seed command, you can use these credentials:
 
-## Support
+- **Admin**: admin@movies.com / admin123
+- **User**: user@movies.com / user123
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+## API Endpoints
 
-## Stay in touch
+### Authentication
+- `POST /auth/register` - Register new user
+- `POST /auth/login` - Login user
+- `POST /auth/register-admin` - Register admin user (Admin only)
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+### Users
+- `GET /users/profile` - Get current user profile (Protected)
+- `PUT /users/profile` - Update user profile (Protected)
+- `GET /users` - List all users (Admin only)
+- `PUT /users/:id/role` - Update user role (Admin only)
+- `DELETE /users/:id` - Delete user account (Protected)
+
+### Movies
+- `GET /movies` - List all movies with pagination
+- `GET /movies/:id` - Get single movie details
+- `GET /movies/search?q=` - Search movies
+- `POST /movies` - Create new movie (Admin only)
+- `PUT /movies/:id` - Update movie (Admin only)
+- `DELETE /movies/:id` - Delete movie (Admin only)
+
+### Series
+- `GET /series` - List all series with pagination
+- `GET /series/:id` - Get single series details
+- `GET /series/search?q=` - Search series
+- `POST /series` - Create new series (Admin only)
+- `PUT /series/:id` - Update series (Admin only)
+- `DELETE /series/:id` - Delete series (Admin only)
+
+### Watchlist
+- `GET /watchlist` - Get user's complete watchlist (Protected)
+- `GET /watchlist/movies` - Get only movies from watchlist (Protected)
+- `GET /watchlist/series` - Get only series from watchlist (Protected)
+- `GET /watchlist/status/:status` - Filter by watch status (Protected)
+- `POST /watchlist` - Add movie/series to watchlist (Protected)
+- `PUT /watchlist/:id` - Update watchlist item (Protected)
+- `DELETE /watchlist/:id` - Remove from watchlist (Protected)
+
+## API Documentation
+
+Once the server is running, you can access the interactive API documentation at:
+```
+http://localhost:5001/api-docs
+```
+
+## Database Schema
+
+The system uses the following main entities:
+
+- **User**: Stores user information with role (USER/ADMIN)
+- **Movie**: Movie information including title, release date, genre, synopsis, rating
+- **Series**: TV series information including seasons, start/end year
+- **Watchlist**: User's personal watchlist linking to movies/series with status and personal notes
+
+## Scripts
+
+- `npm run start:dev` - Start development server with hot reload
+- `npm run build` - Build for production
+- `npm run start:prod` - Start production server
+- `npm run seed` - Seed database with initial data
+- `npm run test` - Run unit tests
+- `npm run lint` - Run linter
+
+## Project Structure
+
+```
+src/
+├── auth/          # Authentication module (JWT, guards, strategies)
+├── users/         # User management module
+├── movies/        # Movie CRUD operations
+├── series/        # Series CRUD operations
+├── watchlist/     # User watchlist management
+├── prisma/        # Database service
+├── common/        # Shared decorators and utilities
+└── main.ts        # Application entry point
+```
+
+## Role-Based Access Control
+
+- **Regular Users (USER)**:
+  - Browse movies and series
+  - Manage personal watchlist
+  - Update own profile
+  - Add ratings and notes
+
+- **Administrators (ADMIN)**:
+  - All user permissions
+  - Create, update, delete movies and series
+  - View all users
+  - Update user roles
+  - Register new admin users
 
 ## License
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+This is a university project - for educational purposes only.
